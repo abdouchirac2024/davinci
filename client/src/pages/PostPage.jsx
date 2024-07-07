@@ -100,7 +100,7 @@ export default function PostPage() {
           {recentPosts &&
             recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
         </div>
-      </div>
+      </div> 
     </main>
   );
 }
