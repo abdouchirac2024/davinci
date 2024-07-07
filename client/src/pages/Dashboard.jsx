@@ -5,6 +5,7 @@ import DashProfile from '../components/DashProfile'; // Importation du composant
 import DashPosts from './../components/DashPosts';
 import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
+import DashboardComp from '../components/DashboardComp';
 
 export default function Dashboard() { // Définition du composant Dashboard
   const location = useLocation(); // Récupération de l'objet location contenant les informations de l'URL
@@ -31,6 +32,8 @@ export default function Dashboard() { // Définition du composant Dashboard
       {tab === 'users' && <DashUsers />}
       {/**comments */}
       {tab === 'comments'&& <DashComments />}
+      {/* dashboard comp */}
+      {tab === 'dash' && <DashboardComp />} 
     </div>
   );
 }
