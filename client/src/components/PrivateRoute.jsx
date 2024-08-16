@@ -8,5 +8,5 @@ export default function PrivateRoute() {
   const { currentUser } = useSelector((state) => state.user);
 
   // Rendu conditionnel basé sur la présence d'un utilisateur connecté
-  return currentUser ? <Outlet /> : <Navigate to='/sign-in' />; // Si currentUser est vrai, affiche Outlet (les composants enfants des routes), sinon redirige vers la page de connexion
+  return currentUser ? <Outlet /> : <Navigate to='/sigin-in' />; // Si currentUser est vrai, affiche Outlet (les composants enfants des routes), sinon redirige vers la page de connexion
 }
