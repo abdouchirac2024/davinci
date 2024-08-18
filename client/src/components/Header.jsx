@@ -48,6 +48,7 @@ export default function Header() {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
+
   return (
     <Navbar className='border-b-2'>
       <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white '>
@@ -63,7 +64,6 @@ export default function Header() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        
       </form>
       <Button className='w-12 h-10 lg:hidden' color='gray' pill>
         <AiOutlineSearch />
@@ -115,6 +115,9 @@ export default function Header() {
         </Navbar.Link>
         <Navbar.Link active={path === '/projects'} as={'div'}>
           <Link to='/projects'>Projects</Link>
+        </Navbar.Link>
+        <Navbar.Link as={'div'}>
+          <a href='https://chat-rho-swart.vercel.app/chats' target='_blank' rel='noopener noreferrer'>Chat</a>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
