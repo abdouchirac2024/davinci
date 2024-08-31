@@ -2,7 +2,7 @@ import { Modal, Table, Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { FaTrash } from 'react-icons/fa';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 
 export default function DashComments() {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,7 +10,6 @@ export default function DashComments() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [commentIdToDelete, setCommentIdToDelete] = useState('');
-
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -34,7 +33,9 @@ export default function DashComments() {
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const res = await fetch(`/api/comment/getcomments?startIndex=${startIndex}`);
+      const res = await fetch(
+        `/api/comment/getcomments?startIndex=${startIndex}`
+      );
       const data = await res.json();
       if (res.ok) {
         setComments((prev) => [...prev, ...data.comments]);
@@ -50,9 +51,12 @@ export default function DashComments() {
   const handleDeleteComment = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(`/api/comment/deleteComment/${commentIdToDelete}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `/api/comment/deleteComment/${commentIdToDelete}`,
+        {
+          method: 'DELETE',
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         setComments((prev) =>
@@ -91,13 +95,15 @@ export default function DashComments() {
                   <Table.Cell>{comment.postId}</Table.Cell>
                   <Table.Cell>{comment.userId}</Table.Cell>
                   <Table.Cell>
-                    <FaTrash
+                    <span
                       onClick={() => {
                         setShowModal(true);
                         setCommentIdToDelete(comment._id);
                       }}
-                      className='text-red-500 hover:underline cursor-pointer'
-                    />
+                      className='font-medium text-red-500 hover:underline cursor-pointer'
+                    >
+                      Delete
+                    </span>
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>

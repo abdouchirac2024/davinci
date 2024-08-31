@@ -1,7 +1,7 @@
-import { Alert, Button, TextInput, Textarea ,Modal} from 'flowbite-react';
+import { Alert, Button, Modal, TextInput, Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Comment from './Comment';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
@@ -12,21 +12,7 @@ export default function CommentSection({ postId }) {
   const [comments, setComments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
-
-  const fetchComments = async () => {
-    try {
-      const res = await fetch(`/api/comment/getPostComments/${postId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setComments(data);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {
@@ -48,12 +34,7 @@ export default function CommentSection({ postId }) {
       if (res.ok) {
         setComment('');
         setCommentError(null);
-        setSuccessMessage('Comment sent successfully!');
         setComments([data, ...comments]);
-        setTimeout(() => setSuccessMessage(null), 3000); // Hide after 3 seconds
-        fetchComments(); // Fetch comments again after successful submission
-      } else {
-        setCommentError(data.message || 'An error occurred');
       }
     } catch (error) {
       setCommentError(error.message);
@@ -61,13 +42,24 @@ export default function CommentSection({ postId }) {
   };
 
   useEffect(() => {
-    fetchComments();
+    const getComments = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setComments(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getComments();
   }, [postId]);
 
   const handleLike = async (commentId) => {
     try {
       if (!currentUser) {
-        navigate('/sigin-in ');
+        navigate('/sigin-in');
         return;
       }
       const res = await fetch(`/api/comment/likeComment/${commentId}`, {
@@ -92,14 +84,14 @@ export default function CommentSection({ postId }) {
     }
   };
 
- const handleEdit = async (comment, editedContent) => {
+  const handleEdit = async (comment, editedContent) => {
     setComments(
       comments.map((c) =>
         c._id === comment._id ? { ...c, content: editedContent } : c
       )
     );
   };
-  
+
   const handleDelete = async (commentId) => {
     setShowModal(false);
     try {
@@ -118,14 +110,13 @@ export default function CommentSection({ postId }) {
       console.log(error.message);
     }
   };
-
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
       {currentUser ? (
         <div className='flex items-center gap-1 my-5 text-gray-500 text-sm'>
           <p>Signed in as:</p>
           <img
-            className='h-10 w-10 object-cover rounded-full'
+            className='h-5 w-5 object-cover rounded-full'
             src={currentUser.profilePicture}
             alt=''
           />
@@ -169,11 +160,6 @@ export default function CommentSection({ postId }) {
               {commentError}
             </Alert>
           )}
-          {successMessage && (
-            <Alert color='success' className='mt-5'>
-              {successMessage}
-            </Alert>
-          )}
         </form>
       )}
       {comments.length === 0 ? (
@@ -200,7 +186,6 @@ export default function CommentSection({ postId }) {
           ))}
         </>
       )}
-
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
