@@ -39,7 +39,7 @@ export default function PostPage() {
   useEffect(() => {
     try {
       const fetchRecentPosts = async () => {
-        const res = await fetch(`/api/post/getposts?limit=3`);
+        const res = await fetch(`/api/post/getposts?limit=4`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
@@ -57,6 +57,7 @@ export default function PostPage() {
         <Spinner size='xl' />
       </div>
     );
+
   return (
     <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
       <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>
@@ -70,24 +71,35 @@ export default function PostPage() {
           {post && post.category}
         </Button>
       </Link>
-      <img
-        src={post && post.image}
-        alt={post && post.title}
-        className='mt-10 p-3 max-h-[600px] w-full object-cover'
-      />
-      <div className='flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
-        <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
-        <span className='italic'>
-          {post && (post.content.length / 1000).toFixed(0)} mins read
-        </span>
+      
+      <div className='flex flex-col lg:flex-row gap-8 items-start mt-10'>
+        <div className='w-full lg:w-1/2 lg:sticky lg:top-10'>
+          <div className='aspect-w-16 aspect-h-9 mb-4 lg:mb-0'>
+            <img
+              src={post && post.image}
+              alt={post && post.title}
+              className='object-cover w-full h-full rounded-lg'
+            />
+          </div>
+        </div>
+        <div className='w-full lg:w-1/2'>
+          <div className='flex justify-between p-3 border-b border-slate-500 w-full text-xs mb-4'>
+            <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
+            <span className='italic'>
+              {post && (post.content.length / 1000).toFixed(0)} mins read
+            </span>
+          </div>
+          <div
+            className='post-content prose max-w-none'
+            dangerouslySetInnerHTML={{ __html: post && post.content }}
+          ></div>
+        </div>
       </div>
-      <div
-        className='p-3 max-w-2xl mx-auto w-full post-content'
-        dangerouslySetInnerHTML={{ __html: post && post.content }}
-      ></div>
-      <div className='max-w-4xl mx-auto w-full'>
+
+      <div className='max-w-4xl mx-auto w-full mt-10'>
         <CallToAction />
       </div>
+
       <CommentSection postId={post._id} />
 
       <div className='flex flex-col justify-center items-center mb-5'>

@@ -33,14 +33,6 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-postSchema.pre('save', function(next) {
-  if (!this.title || !this.content || !this.userId) {
-    next(new Error('Title, content, and userId are required fields'));
-  } else {
-    next();
-  }
-});
-
 const Post = mongoose.model('Post', postSchema);
 
 export default Post;
