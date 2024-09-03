@@ -1,12 +1,16 @@
 import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
 import PostCard from '../components/PostCard';
+import ApplyForm from '../components/ApplyForm';
+import DashApplications from '../components/DashApplications';
 
 export default function PostPage() {
   const { postSlug } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
@@ -39,7 +43,7 @@ export default function PostPage() {
   useEffect(() => {
     try {
       const fetchRecentPosts = async () => {
-        const res = await fetch(`/api/post/getposts?limit=4`);
+        const res = await fetch(`/api/post/getposts?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
@@ -100,7 +104,18 @@ export default function PostPage() {
         <CallToAction />
       </div>
 
-      <CommentSection postId={post._id} />
+      {post && post.category === 'emploi' && !currentUser?.isAdmin && (
+        <ApplyForm postId={post._id} />
+      )}
+
+      {post && post.category === 'emploi' && currentUser?.isAdmin && (
+        <div className='mt-10'>
+          <h2 className='text-2xl font-semibold mb-4'>Applications for this job</h2>
+          <DashApplications postId={post._id} />
+        </div>
+      )}
+
+      <CommentSection postId={post && post._id} />
 
       <div className='flex flex-col justify-center items-center mb-5'>
         <h1 className='text-xl mt-5'>Recent articles</h1>
