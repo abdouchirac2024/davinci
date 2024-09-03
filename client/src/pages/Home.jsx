@@ -4,13 +4,12 @@ import CallToAction from '../components/CallToAction';
 import PostCard from '../components/PostCard';
 import { TypeAnimation } from 'react-type-animation';
 
-
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('/api/post/getPosts?limit=2');
+      const res = await fetch('/api/post/getPosts?limit=3');
       const data = await res.json();
       setPosts(data.posts);
     };
@@ -20,8 +19,8 @@ export default function Home() {
   return (
     <div>
       <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
-          <h2 className="text-4xl md:text-5xl xl:text-7xl">
-        Welcome to{" "}
+        <h2 className="text-4xl md:text-5xl xl:text-7xl">
+          Welcome to{" "}
           <TypeAnimation
             sequence={["DAVINCI Blogs", 1000, "", 1000, "Solutions", 1000]}
             wrapper="span"
@@ -44,7 +43,7 @@ export default function Home() {
         {posts && posts.length > 0 && (
           <div className='flex flex-col gap-6'>
             <h2 className='text-2xl font-semibold text-center'>Recent Posts</h2>
-            <div className='flex flex-wrap gap-4'>
+            <div className='flex flex-row justify-between gap-4'>
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}
@@ -57,7 +56,6 @@ export default function Home() {
             </Link>
           </div>
         )}
-        
       </div>
     </div>
   );

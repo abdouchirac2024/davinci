@@ -1,9 +1,11 @@
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import User from '../models/user.model.js';
+
 export const test = (req, res) => {
   res.json({ message: 'API is working!' });
 };
+
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to update this user'));
@@ -97,7 +99,6 @@ export const getUsers = async (req, res, next) => {
     const totalUsers = await User.countDocuments();
 
     const now = new Date();
-
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
@@ -125,6 +126,23 @@ export const getUser = async (req, res, next) => {
     }
     const { password, ...rest } = user._doc;
     res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const toggleAdmin = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return next(errorHandler(403, 'You are not allowed to change admin status'));
+  }
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+    user.isAdmin = !user.isAdmin;
+    await user.save();
+    res.status(200).json({ message: 'Admin status toggled successfully', isAdmin: user.isAdmin });
   } catch (error) {
     next(error);
   }
