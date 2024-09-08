@@ -1,3 +1,4 @@
+// davinci/client/src/components/DashSidebar.jsx
 import { Sidebar } from 'flowbite-react';
 import {
   HiUser,
@@ -6,13 +7,12 @@ import {
   HiOutlineUserGroup,
   HiAnnotation,
   HiChartPie,
-  HiBriefcase,  // Icône pour les applications (candidatures)
+  HiBriefcase,
 } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function DashSidebar() {
   const location = useLocation();

@@ -1,4 +1,6 @@
+// davinci/api/controllers/application.controller.js
 import Application from '../models/application.model.js';
+import Post from '../models/post.model.js';
 import { errorHandler } from '../utils/error.js';
 
 export const createApplication = async (req, res, next) => {
@@ -25,7 +27,9 @@ export const getApplications = async (req, res, next) => {
     return next(errorHandler(403, 'You are not allowed to see applications'));
   }
   try {
-    const applications = await Application.find({ postId: req.params.postId }).populate('userId', 'username email');
+    const posts = await Post.find({ userId: req.user.id });
+    const postIds = posts.map(post => post._id);
+    const applications = await Application.find({ postId: { $in: postIds } }).populate('postId', 'title');
     res.status(200).json(applications);
   } catch (error) {
     next(error);
