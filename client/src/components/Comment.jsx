@@ -83,7 +83,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
               >
                 Save
               </Button>
-              <Button
+              <Button 
                 type='button'
                 size='sm'
                 gradientDuoTone='purpleToBlue'
