@@ -29,21 +29,21 @@ export default function About() {
               </svg>
             </div>
             <p>
-              Welcome to DAVINCI IT SOLUTIONS, where innovation meets excellence in the digital world. We specialize in providing customized digital solutions to meet the unique needs of our clients. Whether it's software development, digital transformation, or web platform creation, our team of experts is dedicated to guiding you through every step of your project.
+              Bienvenue chez DAVINCI IT SOLUTIONS, où l'innovation rencontre l'excellence dans le monde numérique. Nous sommes spécialisés dans la fourniture de solutions numériques sur mesure pour répondre aux besoins uniques de nos clients. Que ce soit pour le développement de logiciels, la transformation numérique ou la création de plateformes web, notre équipe d'experts est dédiée à vous accompagner à chaque étape de votre projet.
             </p>
 
-            {/* Cards displayed horizontally with animations */}
+            {/* Cartes affichées horizontalement avec animations */}
             <div className="flex flex-row items-center justify-center gap-6 mt-10">
               <Card
                 className="w-72 h-96 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-100"
               >
                 <img
                   src={devImage}
-                  alt="Custom digital solutions"
+                  alt="Solutions numériques sur mesure"
                   className="w-full h-56 object-cover rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
                 />
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mt-4">
-                  Cutting-edge Software Development
+                  Développement de logiciels de pointe
                 </h5>
               </Card>
               <Card
@@ -51,11 +51,11 @@ export default function About() {
               >
                 <img
                   src={dImage}
-                  alt="Digital transformation"
+                  alt="Transformation numérique"
                   className="w-full h-56 object-cover rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
                 />
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mt-4">
-                  Digital Transformation
+                  Transformation numérique
                 </h5>
               </Card>
               <Card
@@ -63,20 +63,20 @@ export default function About() {
               >
                 <img
                   src={webImage}
-                  alt="Web platform creation"
+                  alt="Création de plateformes web"
                   className="w-full h-56 object-cover rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
                 />
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mt-4">
-                  Web Platform Creation
+                  Création de plateformes web
                 </h5>
               </Card>
             </div>
 
             <p>
-              At DAVINCI IT SOLUTIONS, we believe that technology should be a powerful tool for growth and success. Our commitment to delivering high-quality, innovative solutions ensures that your business is always ahead of the curve.
+              Chez DAVINCI IT SOLUTIONS, nous croyons que la technologie doit être un outil puissant pour la croissance et le succès. Notre engagement à fournir des solutions innovantes et de haute qualité garantit que votre entreprise est toujours en avance.
             </p>
             <p>
-              We invite you to explore our services and see how we can help turn your digital ambitions into reality. Together, let's create a future where technology empowers your business to thrive.
+              Nous vous invitons à explorer nos services et à découvrir comment nous pouvons transformer vos ambitions numériques en réalité. Ensemble, créons un avenir où la technologie permet à votre entreprise de prospérer.
             </p>
           </div>
         </div>

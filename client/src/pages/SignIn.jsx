@@ -1,7 +1,6 @@
-//import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'; // Import des modules nécessaires depuis react-router-dom
-import { Alert, Label, Spinner, TextInput, Button } from 'flowbite-react'; // Import des composants nécessaires depuis flowbite-react
-import { useState } from 'react'; // Import de la fonction useState depuis React
+import { Link, useNavigate } from 'react-router-dom';
+import { Alert, Label, Spinner, TextInput, Button } from 'flowbite-react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import OAuth from '../components/OAuth';
 
@@ -11,81 +10,95 @@ import {
   signInFailure,
 } from '../redux/user/userSlice';
 
-export default function SingIn() {
+export default function Connexion() {
+  const [formData, setFormData] = useState({});
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
- // Déclaration des états du formulaire et des messages d'erreur
- const [formData, setFormData] = useState({}); // État du formulaire pour stocker les données des champs
- const { loading, error: errorMessage } = useSelector((state) => state.user);
- const navigate = useNavigate();
- const dispatch = useDispatch();
+  // Fonction pour valider l'email
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
- // Fonction pour gérer le changement dans les champs du formulaire
- const handleChange = async (e) => {
-   setFormData({ ...formData, [e.target.id]: e.target.value.trim() }); // Met à jour l'état du formulaire avec les nouvelles données entrées
- };
+  // Gestion des changements dans les champs du formulaire
+  const handleChange = async (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+  };
 
- // Fonction pour gérer la soumission du formulaire
- const handleSumbit = async (e) => {
-   e.preventDefault(); // Empêche le comportement par défaut de soumission du formulaire
+  // Gestion de la soumission du formulaire
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-   // Vérification de la saisie des champs obligatoires
-   if (!formData.email || !formData.password) {
-    return dispatch(signInFailure('Please fill all the fields'));
-   }
+    // Vérification des champs requis
+    if (!formData.email || !formData.password) {
+      return dispatch(signInFailure('Veuillez remplir tous les champs'));
+    }
 
-   try {
-    dispatch(signInStart());
-     const res = await fetch('/api/auth/signin', { // Appel à l'API pour s'inscrire
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify(formData),
-     });
-     const data = await res.json(); // Conversion de la réponse en JSON
+    // Validation de l'email
+    if (!isValidEmail(formData.email)) {
+      return dispatch(signInFailure("Veuillez entrer une adresse email valide"));
+    }
 
-     if (data.success === false) { // Vérification si l'inscription a échoué
-      dispatch(signInFailure(data.message));
-     }
-     if (res.ok) { // Vérification si la réponse est OK
+    try {
+      dispatch(signInStart());
+      const res = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        return dispatch(signInFailure(data.message || 'Échec de la connexion'));
+      }
+
       dispatch(signInSuccess(data));
-       navigate('/'); // Redirection vers la page de connexion
-     }
-   } catch (error) {
-
-    dispatch(signInFailure(error.message));
-   }
- };
+      navigate('/');
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+    }
+  };
 
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
-        {/*  Contenu à gauche */}
+        {/* Contenu de gauche */}
         <div className='flex-1'>
           <Link to='/' className='font-bold dark:text-white text-4xl'>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-            DAVINCI
+              DAVINCI
             </span>
             Blog
           </Link>
-          <p className='text-sm mt-5'>
-          This is a demo project. You can sign in with your email and password
-            or with Google.
+          
+          {/* Texte de recrutement avec animation */}
+          <p className='text-sm mt-5 text-green-500 animate-pulse'>
+            Nous recrutons des développeurs talentueux pour rejoindre notre équipe et participer à des projets innovants.
+          </p>
+          <p className='text-sm mt-2 text-green-500 animate-fade-in'>
+            Si vous êtes passionné par la technologie et prêt à relever de nouveaux défis, connectez-vous avec votre email ou Google pour découvrir nos opportunités de carrière.
+          </p>
+          <p className='text-sm mt-2 text-green-500 animate-fade-in'>
+            Rejoignez l'aventure DAVINCI IT SOLUTIONS !
           </p>
         </div>
-        {/* Contenu à droite */}
-        <div className="flex-1">
-          <form className='flex flex-col gap-4' onSubmit={handleSumbit}>
-      
+
+        {/* Contenu de droite */}
+        <div className='flex-1'>
+          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div>
-              <Label value='Your email' />
+              <Label htmlFor='email' value='Votre adresse email' />
               <TextInput
                 type='email'
-                placeholder='abdouchirac@gmail.com'
+                placeholder='exemple@gmail.com'
                 id='email'
                 onChange={handleChange}
               />
             </div>
             <div>
-              <Label value='Your password' />
+              <Label htmlFor='password' value='Votre mot de passe' />
               <TextInput
                 type='password'
                 placeholder='*******'
@@ -93,7 +106,6 @@ export default function SingIn() {
                 onChange={handleChange}
               />
             </div>
-            {/* Bouton de soumission du formulaire */}
             <Button
               gradientDuoTone='purpleToPink'
               type='submit'
@@ -102,22 +114,20 @@ export default function SingIn() {
               {loading ? (
                 <>
                   <Spinner size='sm' />
-                  <span className='pl-3'>Loading...</span>
+                  <span className='pl-3'>Chargement...</span>
                 </>
               ) : (
-                'Sign in'
+                'Se connecter'
               )}
             </Button>
             <OAuth />
           </form>
-          {/* Lien vers la page de connexion */}
           <div className='flex gap-2 text-sm mt-5'>
-            <span>Have an account?</span>
+            <span>Pas encore de compte ?</span>
             <Link to='/sign-up' className='text-blue-500'>
-              Sign up
+              Inscrivez-vous
             </Link>
           </div>
-          {/* Affichage du message d'erreur */}
           {errorMessage && (
             <Alert className='mt-5' color='failure'>
               {errorMessage}
