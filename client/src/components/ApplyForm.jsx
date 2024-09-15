@@ -1,3 +1,4 @@
+// davinci/client/src/components/ApplyForm.jsx
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, TextInput, FileInput, Textarea } from 'flowbite-react';
@@ -7,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function ApplyForm({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -14,6 +16,7 @@ export default function ApplyForm({ postId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch('/api/application/create', {
         method: 'POST',
@@ -25,12 +28,15 @@ export default function ApplyForm({ postId }) {
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.message || 'Une erreur est survenue.');
+        setLoading(false);
         return;
       }
-      toast.success('Votre demande a été envoyée avec succès. L\'administrateur vous contactera dans une semaine maximum.');
+      toast.success('Votre candidature a été envoyée avec succès. Vous recevrez un email de confirmation sous peu.');
       setFormData({});
+      setLoading(false);
     } catch (error) {
       toast.error('Quelque chose a mal tourné');
+      setLoading(false);
     }
   };
 
@@ -74,12 +80,11 @@ export default function ApplyForm({ postId }) {
           rows={4}
           onChange={handleChange}
         />
-        <Button type='submit' gradientDuoTone='purpleToPink'>
-          Soumettre la demande
+        <Button type='submit' gradientDuoTone='purpleToPink' disabled={loading}>
+          {loading ? 'Envoi en cours...' : 'Soumettre la candidature'}
         </Button>
       </form>
 
-      {/* Toast Container */}
       <ToastContainer />
     </div>
   );

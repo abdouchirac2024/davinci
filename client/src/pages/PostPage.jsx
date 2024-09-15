@@ -108,12 +108,12 @@ export default function PostPage() {
         <ApplyForm postId={post._id} />
       )}
 
-      {post && post.category === 'emploi' && currentUser?.isAdmin && (
+      {/* {post && post.category === 'emploi' && currentUser?.isAdmin && (
         <div className='mt-10'>
           <h2 className='text-2xl font-semibold mb-4'>Applications for this job</h2>
           <DashApplications postId={post._id} />
         </div>
-      )}
+      )} */}
 
       <CommentSection postId={post && post._id} />
 

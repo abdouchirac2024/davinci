@@ -9,6 +9,7 @@ import commentRoutes from './routes/comment.route.js';
 import applicationRoutes from './routes/application.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import schedule from 'node-schedule';
 
 dotenv.config();
 
@@ -51,4 +52,13 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+// Schedule job to check and update application statuses daily
+schedule.scheduleJob('0 0 * * *', async function(){
+  const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+  await Application.updateMany(
+    { status: 'pending', applicationDate: { $lt: fourteenDaysAgo } },
+    { $set: { status: 'rejected' } }
+  );
 });

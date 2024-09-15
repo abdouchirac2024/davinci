@@ -15,6 +15,7 @@ import PostPage from './pages/PostPage';
 import ScrollToTop from './components/ScrollToTop';
 import Search from './pages/Search';
 import DashApplications from './components/DashApplications';
+import ApplicationDetails from './components/ApplicationDetails';
 
 export default function App() {
   return (
@@ -29,7 +30,8 @@ export default function App() {
         <Route path='/search' element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />}>
-            <Route path="?tab=applications" element={<DashApplications />} />
+          
+            <Route path='/dashboard/application/:id' element={<ApplicationDetails />} />
           </Route>
         </Route>
         <Route element={<OnlyAdminPrivateRoute />}>

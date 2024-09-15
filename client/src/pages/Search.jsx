@@ -106,7 +106,7 @@ export default function Search() {
         <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
           <div className='flex   items-center gap-2'>
             <label className='whitespace-nowrap font-semibold'>
-              Search Term:
+            Terme de recherche:
             </label>
             <TextInput
               placeholder='Search...'
@@ -117,39 +117,39 @@ export default function Search() {
             />
           </div>
           <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Sort:</label>
+            <label className='font-semibold'>Tri:</label>
             <Select onChange={handleChange} value={sidebarData.sort} id='sort'>
-              <option value='desc'>Latest</option>
-              <option value='asc'>Oldest</option>
+              <option value='desc'>Le plus récent</option>
+              <option value='asc'>Le plus ancien</option>
             </Select>
           </div>
           <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Category:</label>
+            <label className='font-semibold'>Catégorie:</label>
             <Select
               onChange={handleChange}
               value={sidebarData.category}
               id='category'
             >
-              <option value='uncategorized'>Uncategorized</option>
+              <option value='uncategorized'>Non catégorisé</option>
               <option value='emploi'>emploi</option>
-              <option value='stage'>stage'</option>
+              <option value='stage'>stage</option>
               <option value='service'>service</option>
             </Select>
           </div>
           <Button type='submit' outline gradientDuoTone='purpleToPink'>
-            Apply Filters
+          Appliquer les filtres
           </Button>
         </form>
       </div>
       <div className='w-full'>
         <h1 className='text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5 '>
-          Posts results:
+        Résultats des posts :
         </h1>
         <div className='p-7 flex flex-wrap gap-4'>
           {!loading && posts.length === 0 && (
-            <p className='text-xl text-gray-500'>No posts found.</p>
+            <p className='text-xl text-gray-500'> Aucun post trouvé..</p>
           )}
-          {loading && <p className='text-xl text-gray-500'>Loading...</p>}
+          {loading && <p className='text-xl text-gray-500'>Chargement...</p>}
           {!loading &&
             posts &&
             posts.map((post) => <PostCard key={post._id} post={post} />)}
@@ -158,7 +158,7 @@ export default function Search() {
               onClick={handleShowMore}
               className='text-teal-500 text-lg hover:underline p-7 w-full'
             >
-              Show More
+              Voir plus
             </button>
           )}
         </div>
