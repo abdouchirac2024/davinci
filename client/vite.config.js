@@ -12,16 +12,20 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-  // Supprimez ou commentez la configuration esbuild
-  // esbuild: {
-  //   jsxInject: `import React from 'react'`
-  // },
   optimizeDeps: {
-    include: ['three', '@react-three/fiber', '@react-three/drei']
+    include: ['three']
   },
   build: {
+    commonjsOptions: {
+      include: [/three/, /node_modules/]
+    },
     rollupOptions: {
-      external: ['three']
+      external: []  // Retirez 'three' d'ici
+    }
+  },
+  resolve: {
+    alias: {
+      'three': 'three'
     }
   }
 });
