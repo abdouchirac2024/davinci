@@ -12,9 +12,10 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-  esbuild: {
-    jsxInject: `import React from 'react'`
-  },
+  // Supprimez ou commentez la configuration esbuild
+  // esbuild: {
+  //   jsxInject: `import React from 'react'`
+  // },
   optimizeDeps: {
     include: ['three', '@react-three/fiber', '@react-three/drei']
   },
