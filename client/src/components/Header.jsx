@@ -6,7 +6,7 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { signoutSuccess } from '../redux/user/userSlice';
-import logo from '../assets/logo.jpg'; // Import your logo
+import logo from '../assets/logo-removebg-preview.png'; // Import your logo
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export default function Header() {
   return (
     <Navbar className='border-b-2  top-0 left-0 w-full z-50 bg-white dark:bg-gray-900'>
       <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-        <img src={logo} alt="Logo" className='h-12 sm:h-16' /> {/* Replacing DAVINCI Blog with the logo */}
+        <img src={logo} alt="Logo" className='h-20 sm:h-26' /> {/* Replacing DAVINCI Blog with the logo */}
       </Link>
       <form onSubmit={handleSubmit}>
         <TextInput

@@ -12,4 +12,15 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  esbuild: {
+    jsxInject: `import React from 'react'`
+  },
+  optimizeDeps: {
+    include: ['three', '@react-three/fiber', '@react-three/drei']
+  },
+  build: {
+    rollupOptions: {
+      external: ['three']
+    }
+  }
 });
